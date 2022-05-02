@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
                 return res.status(409).send({message:"Oops! Username already taken!"})
             }
             if(!user){
-                return res.status(200).send({message:"Alright! Username available!"})
+                return res.status(200).send({message:"Alright! Username available!!!"})
             }
             else{
                 user = new User({
