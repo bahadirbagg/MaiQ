@@ -4,23 +4,25 @@ import Main from "./Main";
 import Profile from "./Profile";
 import SignUp from "./SignUp";
 import Login from "./Login";
-
+import Question from "./Question";
+import Details from "./Details"
 
 
 function App() {
-
   const user = localStorage.getItem("token")
-
   return (
     <div>
-      <Header />
+      {user==='201' && <Header />}
         <div>
         <Routes>
-          {user && <Route path='/' exact element={<Main />}/>}   
+          {console.log("token",user)}
+          {user==='201' && <Route path='/' exact element={<Main />}/>}    
           <Route path='/SignUp' exact element={<SignUp />}/>  
           <Route path='/Login' exact element={<Login />}/>  
           <Route path='/' exact element={<SignUp />}/> 
           <Route path='/Profile' exact element={<Profile />}/> 
+          <Route path='/Question' exact element={<Question />}/> 
+          <Route path='/Details' exact element={<Details />}/>
         </Routes>
       </div> 
     </div>

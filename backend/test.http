@@ -1,7 +1,8 @@
-POST http://localhost:8080/api/users
+POST  http://localhost:8080/api/question
 Content-Type: application/json
 
 {
-    "nickname":"deneme",
-    "password":"1233"
+     "nickname":"alssia",
+     "title":"başlasssık",
+     "question":"desssneme"
 }

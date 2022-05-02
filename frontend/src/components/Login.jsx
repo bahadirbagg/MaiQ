@@ -4,7 +4,7 @@ import axios from "axios";
 function Login(){
 
     const [data,setData] = useState({
-        nickName:"",
+        nickname:"",
         password:""
     });
     const [error,setError] = useState("")
@@ -15,64 +15,54 @@ function Login(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const url = "http://localhost:8080/api/auth"
-            const {data:res} = await axios.toString(url,data);
-            localStorage.setItem("token",res.data);
-            window.location = "/"
-            console.log(res.message);
-        }catch(error){
-            if(error.response && 
-                error.resonse.status >= 400 &&
-                error.response.status<=500
-            ){
-                setError(error.resonse.data.message)
-            }
-        }
+        const url = "http://localhost:8080/api/auth"
+            axios.post(url,data)
+            .then(res => {
+                if (res.status === 201){
+                    console.log("ress",res.data.message)  
+                    console.log("resstats",res.status)  
+                    localStorage.setItem("token",res.status);
+                    localStorage.setItem("nickname",data.nickname);
+                    window.location = "/" 
+                }         
+            })
+            .catch((err)=> {
+                console.log("err",err.response.data.message)
+                setError(err.response.data.message)
+            })
     }
 
     return(
-        <div className='h-screen flex bg-gray-bg1'>
-        <div className='w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16'>
-            <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>
-                Log in to your account 🔐
-            </h1>
-
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor='email'>Nickname</label>
-                    <input
+        <div className="flex justify-center items-center h-screen w-full bg-blue-400">
+        <div className="w-1/2 bg-white rounded shadow-2xl p-8 m-4">
+            <h1 className="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Login</h1>
+            <form action="" onSubmit={handleSubmit}>
+                <div className="flex flex-col mb-4">
+                    <label className="mb-2 font-bold text-lg text-gray-900" for="last_name">Nickname</label>
+                    <input 
                         type='text'
-                        className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out mb-4`}
-                        name='nickName'
+                        className="border py-2 px-3 text-grey-800" 
+                        name='nickname'
                         onChange={handleChange}
-                        value={data.nickName}
-                        placeholder='Your Nickname'
-                        required
-                    />
+                        value={data.nickname}
+                        required/>
                 </div>
-                <div>
-                    <label htmlFor='password'>Password</label>
-                    <input
+                {error === 'Invalid Nickname' &&<div className="text-red-600">{error}</div>}
+                
+                <div className="flex flex-col mb-4">
+                    <label className="mb-2 font-bold text-lg text-gray-900" for="password">Password</label>
+                    <input 
                         type='password'
+                        className="border py-2 px-3 text-grey-800" 
                         name='password'
-                        className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out mb-4`}
                         onChange={handleChange}
                         value={data.password}
-                        placeholder='Your Password'
-                        required
-                    />
+                        required/>
                 </div>
-                {error && <div>{error}</div>}
-                <div className='flex justify-center items-center mt-6'>
-                    <button
-                        type="submit"
-                        className={`  bg-green-600 py-2 px-4 text-sm text-black rounded border border-green focus:outline-none focus:border-green-dark`}
-                    >
-                        Login
-                    </button>
-                </div>
+                {error === 'Yanlış Şifre' &&<div className="text-red-600">{error}</div>}
+                <button className="block bg-teal-400 hover:bg-teal-600 text-white uppercase text-lg mx-auto p-4 rounded" type="submit">Login</button>
             </form>
+            <a className="block w-full text-center no-underline mt-4 text-sm text-gray-700 hover:text-gray-900" href="/Signup">Dont have an account?</a>
         </div>
     </div>
     )

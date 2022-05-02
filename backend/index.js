@@ -5,6 +5,11 @@ const cors = require("cors");
 const connection = require('./db');
 const userRoutes = require('./routes/users')
 const authRoutes = require('./routes/auth')
+const qRoutes = require('./routes/questions')
+const getRoute = require('./routes/get')
+const getUser = require('./routes/getuser')
+const getComment = require('./routes/comment')
+
 
 //database connection
 connection()
@@ -17,6 +22,12 @@ app.use(cors());
 //routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/question", qRoutes);
+app.use("/api",getRoute);
+app.use("/api/getuser",getUser);
+app.use("/api/comment",getComment);
+
+
 
 const PORT = 8080;
 app.listen(PORT, () =>{

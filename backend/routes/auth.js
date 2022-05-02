@@ -5,35 +5,28 @@ const Joi = require("joi")
 const bcrypt = require("bcrypt")
 
 router.post('/',async (req, res) => {
-    try{
-        const {error} = validate(req.body);
-        if(error)
-            return res.status(400).send({message:error.details[0].message});
+        console.log("log",req.body.nickname)
+        console.log("log",req.body.password)
+        const {nickname, password} = req.body;
+        
+        User.findOne({nickname:nickname}).then((user) => {
+        
+            if(!user){
+                return res.status(401).send({message:"Invalid Nickname"})
+            }
+            else{
+                if(user.password === password){
+                    return res.status(201).send({message:"Giriş Başarılı"})
+                }
+                else{
+                    return res.status(401).send({message:"Yanlış Şifre"})
+                }
+            }
 
-        const user = await User.findOne({nickname:req.body.nickname});
-        if(!user)
-            return res.status(401).send({message:"Invalid Email or Password"});
-
-        const validPassword = await bcrypt.compare(
-            req.body.password,user.password
-        );
-        if(!validPassword)
-            return res.status(401).send({message:"Invalid Email or Password"});
-
-        const token = user.generateAuthToken();
-        res.status(200).send({data:token,message:"Logged in successfully"})
-    }catch(error){
-        res.status(500).send({message:"Internal Server Error"})
-
-    }
+        })
+       
+            
 })
 
-const validate = (data) => {
-    const schema =Joi.object({
-        nickname:Joi.string().required().label("Nick Name"),
-        password:Joi.string().required().label("Password")
-    });
-    return schema.validate(data);
-};
 
 module.exports = router;
