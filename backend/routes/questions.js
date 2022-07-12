@@ -3,7 +3,6 @@ const router = express.Router();
 const {Question} = require("../models/quest")
 
 router.post('/', (req, res) => {
-    console.log(req.body.nickname)
         Question.findOne({question:req.body.question}).then((quest) => {
             const {error} = req.body;
             if(quest){

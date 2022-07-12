@@ -3,9 +3,6 @@ const router = express.Router();
 const {User} = require("../models/user")
 
 router.post('/', (req, res) => {
-    console.log(req.body.nickname)
-    console.log(req.body.password)
-      
         User.findOne({nickname:req.body.nickname}).then((user) => {
             const {error} = req.body;
             if(error){
@@ -13,9 +10,6 @@ router.post('/', (req, res) => {
             }
             if(user){
                 return res.status(409).send({message:"Oops! Username already taken!"})
-            }
-            if(!user){
-                return res.status(200).send({message:"Alright! Username available!!!"})
             }
             else{
                 user = new User({

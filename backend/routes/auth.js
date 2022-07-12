@@ -5,8 +5,6 @@ const Joi = require("joi")
 const bcrypt = require("bcrypt")
 
 router.post('/',async (req, res) => {
-        console.log("log",req.body.nickname)
-        console.log("log",req.body.password)
         const {nickname, password} = req.body;
         
         User.findOne({nickname:nickname}).then((user) => {

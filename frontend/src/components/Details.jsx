@@ -10,6 +10,7 @@ function Details(){
     const { from } = location.state;
 
     const [data,setData] = useState([]);
+    const [comm,setComm] = useState([]);
 
     const [comment,setComment] = useState({
         nickname:`${nickname}`,
@@ -34,6 +35,7 @@ function Details(){
             .catch((err)=> {
                 console.log("err",err.response)
             })
+            window.location.reload()
     }
 
 
@@ -42,7 +44,8 @@ function Details(){
 
     useEffect(() => {
         getQuestPost()
-      },[]);
+        getCommPost()
+      },[comm]);
 
 
    const getQuestPost = () => {
@@ -50,47 +53,72 @@ function Details(){
        .then((response) =>{
            const data = response.data
            setData(data)
-            console.log('data has been recieved',data)
        })
        .catch(()=>{
             alert('erroor')
        })
    }
 
+   const getCommPost = () => {
+    axios.get(`http://localhost:8080/api/getcomment/${from}`)
+    .then((response) =>{
+        const comm = response.data
+        setComm(comm)
+    })
+    .catch(()=>{
+         alert('erroor')
+    })
+}
+
+
    
 
     return(
-        <div className="p-9 h-screen w-full flex-row  bg-gray-500" >
+        <div className="p-9 h-full w-full flex-row  bg-gray-500" >
                {data?.map((post,index) => {
                     return  post._id===from ?
-                    
-                <div className="flex flex-row p-8 mt-8  bg-gray-300   rounded-xl" key={index}>
-                    <div>
-                        <h1 className=" flex text-2xl text-gray-800">{post.title}</h1>
-                        <h1 className=" flex text-xl mt-6">{post.question}</h1>
-                        <h1 className=" flex right-0 bottom-0 text-sm">soran:{post.nickname}</h1>
+                <div class=" py-4 px-8 bg-white shadow-lg rounded-lg my-20" key={index}>
+                    <div class="flex justify-center md:justify-end -mt-16">
+                        <img class="w-20 h-20 object-cover rounded-full border-2 border-indigo-500" 
+                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"/>
                     </div>
-                </div>
-                :null
+                    <div>
+                        <h2 class="flex text-gray-800 text-3xl font-semibold">{post.title}</h2>
+                        <p class="flex mt-2 text-gray-600">{post.question}</p>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <a href="#" class="text-xl font-medium text-indigo-500">{post.nickname}</a>
+                    </div>
+                </div>:null
         })}
-        
-        <div className="absolute max-w-lg bg-slate-400 shadow-md mt-24 bottom-0">
-            <form onSubmit={handleSubmit} className="w-full p-4">
-                <div className="mb-2">
-                    <label htmlFor="comment" className="text-lg text-gray-600">Add a comment</label>
-                         <textarea 
-                            className="w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
-                            type='text'
-                            name='comment'
-                            onChange={handleChange}
-                            value={comment.comment}
-                            placeholder="Enter Comment" 
-                            required>
-                             </textarea>
-                </div>
-                    <button className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded">Comment</button>
-            </form>
-        </div>
+        <form className="mt-5" onSubmit={handleSubmit}><input type="hidden" />
+            <textarea 
+                className="w-full shadow-inner h-20 p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl" 
+                placeholder="Add comment here." 
+                cols="6" rows="6"
+                spellCheck="false"
+                type='text'
+                name='comment'
+                onChange={handleChange}
+                value={comment.comment}
+                required>
+            </textarea>
+            <button className="font-bold py-2 px-4 w-full bg-blue-500 text-lg text-white shadow-md rounded-lg ">Comment </button>
+        </form>
+
+
+            {comm.comments?.map((post,index) => {
+                    return comm.comments!==null ?
+                    <div id="task-comments" className="pt-4"  key={index}>
+                        <div className="bg-white rounded-lg p-3  flex flex-col justify-center items-center md:items-start shadow-lg mb-4">
+                            <div className="flex flex-row justify-center mr-2">
+                                <img alt="avatar" width="48" height="48" className="rounded-full w-10 h-10 mr-4 shadow-lg mb-4" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"/>
+                                <h3 className="text-blue-500 font-semibold text-lg text-center md:text-left ">{post.nickname}</h3>
+                            </div>
+                            <p className="text-gray-600 text-lg text-center md:text-left ">{post.comment}</p>
+                        </div>
+                    </div>:null
+        })}
 
         </div>
     )

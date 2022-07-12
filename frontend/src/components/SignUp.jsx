@@ -18,6 +18,7 @@ function SignUp(){
     }
 
     const handleSubmit = async (e) => {
+        console.log("hey")
         e.preventDefault();
             const url = "http://localhost:8080/api/users"
             axios.post(url,data)
@@ -38,7 +39,7 @@ function SignUp(){
         <div className="flex justify-center items-center h-screen w-full bg-blue-400">
         <div className="w-1/2 bg-white rounded shadow-2xl p-8 m-4">
             <h1 className="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Register</h1>
-            <form action="" method="post" onSubmit={handleSubmit}>
+            <form method="post" onSubmit={handleSubmit}>
                 <div className="flex flex-col mb-4">
                     <label className="mb-2 font-bold text-lg text-gray-900" for="first_name">Full Name</label>
                     <input 

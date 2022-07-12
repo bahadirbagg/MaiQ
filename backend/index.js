@@ -8,7 +8,9 @@ const authRoutes = require('./routes/auth')
 const qRoutes = require('./routes/questions')
 const getRoute = require('./routes/get')
 const getUser = require('./routes/getuser')
-const getComment = require('./routes/comment')
+const commentRoutes = require('./routes/comment')
+const getComment = require('./routes/getcomment')
+
 
 
 //database connection
@@ -25,7 +27,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/question", qRoutes);
 app.use("/api",getRoute);
 app.use("/api/getuser",getUser);
-app.use("/api/comment",getComment);
+app.use("/api/comment",commentRoutes);
+app.use("/api/getcomment",getComment);
 
 
 

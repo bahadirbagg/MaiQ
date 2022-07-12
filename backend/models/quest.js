@@ -9,7 +9,7 @@ const questionSchema = new mongoose.Schema({
     nickname:{type:String,required:true},
     title:{type:String,required:true},
     question:{type:String,required:true},
-    comments:[{commentSchema}]
+    comments:[commentSchema]
 });
 
 

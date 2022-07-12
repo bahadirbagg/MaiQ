@@ -38,7 +38,7 @@ function Login(){
             <h1 className="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Login</h1>
             <form action="" onSubmit={handleSubmit}>
                 <div className="flex flex-col mb-4">
-                    <label className="mb-2 font-bold text-lg text-gray-900" for="last_name">Nickname</label>
+                    <label className="mb-2 font-bold text-lg text-gray-900" >Nickname</label>
                     <input 
                         type='text'
                         className="border py-2 px-3 text-grey-800" 
@@ -50,7 +50,7 @@ function Login(){
                 {error === 'Invalid Nickname' &&<div className="text-red-600">{error}</div>}
                 
                 <div className="flex flex-col mb-4">
-                    <label className="mb-2 font-bold text-lg text-gray-900" for="password">Password</label>
+                    <label className="mb-2 font-bold text-lg text-gray-900" >Password</label>
                     <input 
                         type='password'
                         className="border py-2 px-3 text-grey-800" 

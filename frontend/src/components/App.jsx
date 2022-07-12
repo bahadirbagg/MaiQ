@@ -6,6 +6,7 @@ import SignUp from "./SignUp";
 import Login from "./Login";
 import Question from "./Question";
 import Details from "./Details"
+import Center from "./Center";
 
 
 function App() {
